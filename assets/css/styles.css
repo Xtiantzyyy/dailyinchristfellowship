@@ -313,7 +313,7 @@ blockquote { margin: 0; }
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 16px;
 }
 
 .brand {
@@ -353,11 +353,15 @@ blockquote { margin: 0; }
   margin-top: 3px;
 }
 
+/* Header-only: keeps the brand compact so eight nav items + the CTA always fit
+   inside the 1180px content wrap. Scoped so the footer brand is unaffected. */
+.site-header .brand__name { font-size: 1rem; }
+
 .nav { margin-left: auto; }
 .nav__list {
   display: flex;
   align-items: center;
-  gap: clamp(4px, 1.1vw, 14px);
+  gap: clamp(2px, 0.85vw, 10px);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -366,7 +370,8 @@ blockquote { margin: 0; }
 .nav__link {
   position: relative;
   display: inline-block;
-  padding: 10px 12px;
+  padding: 10px 9px;
+  white-space: nowrap;
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
@@ -377,8 +382,8 @@ blockquote { margin: 0; }
 .nav__link::after {
   content: "";
   position: absolute;
-  left: 12px;
-  right: 12px;
+  left: 9px;
+  right: 9px;
   bottom: 4px;
   height: 1px;
   background: #fff;
@@ -392,7 +397,7 @@ blockquote { margin: 0; }
 .nav__link[aria-current="page"]::after { transform: scaleX(1); background: var(--iris-300); }
 
 .header__cta { margin-left: 8px; }
-.header__cta .btn { padding: 12px 22px; min-height: 46px; }
+.header__cta .btn { padding: 12px 22px; min-height: 46px; white-space: nowrap; }
 
 .nav-toggle {
   display: none;
@@ -1637,8 +1642,11 @@ a, .info-list__value, .footer__list { overflow-wrap: anywhere; }
   .footer__brand { grid-column: 1 / -1; }
 }
 
-@media (max-width: 900px) {
-  :root { --header-h: 72px; }
+/* The header collapses to the hamburger once the viewport is narrower than the
+   content wrap (--wrap: 1180px). Below that the brand + eight nav items + CTA
+   cannot fit on one row, which is what made the row overflow. These are nav
+   rules only; the page-layout rules stay at their own 900px breakpoint. */
+@media (max-width: 1180px) {
   .nav { display: none; }
   .header__cta { display: none; }
   .nav-toggle { display: inline-flex; }
@@ -1667,6 +1675,10 @@ a, .info-list__value, .footer__list { overflow-wrap: anywhere; }
   }
   body.nav-open .nav__link::after { display: none; }
   body.nav-open .nav__list .btn { margin-top: 22px; width: 100%; }
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 72px; }
 
   .hero__services { grid-template-columns: 1fr; }
   .hero__meta { gap: 12px 22px; }
@@ -1727,7 +1739,7 @@ a, .info-list__value, .footer__list { overflow-wrap: anywhere; }
 
 /* ------------------------------------------------------------ refinements -- */
 .nav__list .nav__cta { display: none; }
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
   body.nav-open .nav__list .nav__cta { display: block; }
 }
 .hero__globe--back { animation: none; transform: scale(1.18); }

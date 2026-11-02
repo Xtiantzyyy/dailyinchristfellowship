@@ -307,7 +307,11 @@ Any static host works — nothing needs compiling:
 
 ## Good to know
 
-- **Responsive** — tested from 390 px phones up to large desktops; the mobile menu is a full-height panel.
+- **Responsive** — tested from 320 px phones up to 1920 px desktops. The nav row collapses to
+  the hamburger as soon as the viewport is narrower than the content wrap (`--wrap: 1180px`),
+  because the brand + eight nav items + CTA only fit on one row above that width. Nav labels
+  are `white-space: nowrap`, so a long label can never break mid-word — the header switches to
+  the hamburger instead.
 - **Accessible** — semantic landmarks, skip link, focus rings, labelled form fields,
   `aria-current` on the active nav item, reduced-motion support, and print styles.
 - **Fast** — one CSS file, one small JS file, two Google Fonts families, no libraries.
