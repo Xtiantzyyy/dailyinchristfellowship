@@ -1403,57 +1403,20 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
 .person h3 { font-size: 1.1rem; margin-bottom: 4px; }
 .person__role { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--iris-500); font-weight: 600; }
 
-/* ------------------------------------------------------------------- map -- */
-.map {
-  position: relative;
+/* ------------------------------------------------------------- map embed -- */
+/* Live Google Maps iframe on contact.html, framed to match the card radius. */
+.map-embed {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  min-height: 340px;
-  background:
-    repeating-linear-gradient(0deg, rgba(38, 37, 94, 0.09) 0 1px, transparent 1px 46px),
-    repeating-linear-gradient(90deg, rgba(38, 37, 94, 0.09) 0 1px, transparent 1px 46px),
-    linear-gradient(160deg, var(--silver-100), #e9eaf2);
-  display: grid;
-  place-items: center;
   border: 1px solid var(--silver-300);
+  background: var(--silver-100);
 }
-.map::before {
-  content: "";
-  position: absolute;
-  left: -10%;
-  right: -10%;
-  top: 52%;
-  height: 74px;
-  background: #fff;
-  transform: rotate(-14deg);
-  box-shadow: 0 0 0 1px rgba(38, 37, 94, 0.07);
+.map-embed iframe {
+  display: block;
+  width: 100%;
+  height: clamp(300px, 40vw, 420px);
+  border: 0;
 }
-.map::after {
-  content: "";
-  position: absolute;
-  top: -20%;
-  bottom: -20%;
-  left: 40%;
-  width: 46px;
-  background: #fff;
-  transform: rotate(9deg);
-  box-shadow: 0 0 0 1px rgba(38, 37, 94, 0.06);
-}
-.map__pin {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 18px;
-  background: #fff;
-  border-radius: 999px;
-  box-shadow: var(--shadow-md);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-.map__pin svg { width: 20px; height: 20px; color: var(--navy-600); }
 
 /* ---------------------------------------------------------------- footer -- */
 .site-footer {
@@ -2063,3 +2026,50 @@ address { font-style: normal; }
 }
 
 .fb-card__avatar { background: #fff var(--logo-mark) center / 100% no-repeat; }
+
+/* --------------------------------------------------------------- news flow -- */
+/* Straight-through editorial layout for news.html: one readable column of
+   articles separated by hairline rules, instead of a grid of cards. */
+.news-flow { max-width: 860px; margin-inline: auto; }
+
+.news-item {
+  padding-block: clamp(34px, 4.6vw, 58px);
+  border-top: 1px solid var(--silver-300);
+}
+/* the section head is a <div>, so the first <article> is the first of its type */
+.news-item:first-of-type { border-top: 0; padding-top: 0; }
+.news-item:last-of-type { padding-bottom: 0; }
+
+.news-item .eyebrow { margin-bottom: 12px; }
+.news-item__title {
+  font-size: clamp(1.42rem, 2.5vw, 1.95rem);
+  margin-bottom: 22px;
+}
+
+.news-item__media {
+  margin: 0 0 24px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--navy-700), var(--navy-950));
+}
+/* Landscape photos keep their own proportions; only very tall images are
+   clamped, so the one portrait photo cannot run away down the page. */
+.news-item__media img {
+  width: 100%;
+  height: auto;
+  max-height: 660px;
+  object-fit: cover;
+}
+
+.news-item__text {
+  font-size: clamp(1rem, 1.15vw, 1.0625rem);
+  line-height: 1.78;
+  color: var(--body);
+  max-width: 68ch;
+  margin-bottom: 0;
+}
+
+@media (max-width: 620px) {
+  .news-item__media { border-radius: var(--radius-sm); }
+  .news-item__media img { max-height: 400px; }
+}

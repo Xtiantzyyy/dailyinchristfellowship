@@ -34,32 +34,32 @@ current page in the menu automatically.
 
 ## News
 
-`news.html` is a recap page of the year's highlights, newest layout in a
-three-column card grid. Each card is one `<article class="card card--media">`
-with the date in the eyebrow, the title in the `<h3>`, and a short description.
+`news.html` is a recap page of the year's highlights. It reads as one continuous
+article column (not cards): each entry is an `<article class="news-item">` with the date
+in the eyebrow, the title in the `<h3>`, a full-width photo, then a short description.
+Items sit in `.news-flow` and are separated by hairline rules.
 
 The photos live in `assets/images/news/` and are **optimised copies** — the
 originals you supplied stay untouched in `_news/_2026-highlights/`. Filenames
 are `YYYY-MM-DD-slug.jpg`.
 
-To add another item, copy this block into the grid (order is chronological):
+To add another item, copy this block into `.news-flow` (order is chronological):
 
 ```html
-<article class="card card--hover card--media reveal">
-  <figure class="card__media">
+<article class="news-item reveal">
+  <p class="eyebrow">November 22, 2026</p>
+  <h3 class="news-item__title">Title Here</h3>
+  <figure class="news-item__media">
     <img src="assets/images/news/2026-11-22-slug.jpg" alt="Description of the photo"
          width="1200" height="900" loading="lazy" decoding="async">
   </figure>
-  <div class="card__body">
-    <p class="eyebrow" style="margin-bottom:10px">November 22, 2026</p>
-    <h3>Title Here</h3>
-    <p>One or two sentences about what happened.</p>
-  </div>
+  <p class="news-item__text">One or two sentences about what happened.</p>
 </article>
 ```
 
-Keep the `width`/`height` matching the real pixel size of the file — they
-reserve space so the grid does not jump while photos load.
+Keep the `width`/`height` matching the real pixel size of the file — they reserve space
+so the column does not jump while photos load. Landscape photos keep their own
+proportions; `max-height` in the CSS only clamps unusually tall images.
 
 ---
 
@@ -232,19 +232,24 @@ Without `data-demo`, the browser submits the form normally.
 
 ---
 
-## Adding a real map
+## The map
 
-On `contact.html`, replace the decorative `<div class="map"> … </div>` with a Google Maps embed:
+`contact.html` shows a live Google Map of the church inside a `.map-embed` frame — the
+CSS gives it the rounded corners and a height that shrinks on small screens. The `src`
+is a keyless embed pointed at the church's place:
 
-```html
-<iframe
-  src="https://www.google.com/maps/embed?pb=YOUR_EMBED_CODE"
-  width="100%" height="380" style="border:0;border-radius:26px"
-  loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-  title="Map to Daily in Christ Fellowship"></iframe>
+- **Place** — Daily In Christ Fellowship Church, Quezon City
+- **Coordinates** — `14.6568076, 121.0200493`
+
+To point it somewhere else, either copy a fresh embed from Google Maps → Share → Embed
+a map, or build one yourself and paste it into the `src`:
+
+```
+https://www.google.com/maps?q=<place name or lat,lng>&ll=<lat>,<lng>&z=17&output=embed
 ```
 
-Get the embed code from Google Maps → Share → Embed a map.
+The **Get Directions** button beside the map opens the same place in the visitor's maps
+app.
 
 ---
 
