@@ -45,6 +45,7 @@
 
   --ease: cubic-bezier(0.22, 0.68, 0.24, 1);
   --header-h: 82px;
+  --header-h-scrolled: 70px;
 }
 
 /* ---------------------------------------------------------------- reset -- */
@@ -289,6 +290,21 @@ blockquote { margin: 0; }
     height 0.35s var(--ease), border-color 0.35s var(--ease);
   border-bottom: 1px solid transparent;
 }
+/* The frosted blur lives on a pseudo-element, never on .site-header itself.
+   backdrop-filter -- like transform or filter -- makes an element the containing
+   block for its fixed-position descendants, which collapsed the full-height
+   mobile menu to a 68px sliver once the header entered its scrolled state.
+   Keep this rule free of transform/filter/backdrop-filter/perspective. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.site-header.is-scrolled::before {
+  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  backdrop-filter: saturate(150%) blur(14px);
+}
 .site-header::after {
   content: "";
   position: absolute;
@@ -298,10 +314,8 @@ blockquote { margin: 0; }
   transition: opacity 0.35s var(--ease);
 }
 .site-header.is-scrolled {
-  height: 70px;
+  height: var(--header-h-scrolled);
   background: rgba(16, 15, 42, 0.9);
-  -webkit-backdrop-filter: saturate(150%) blur(14px);
-  backdrop-filter: saturate(150%) blur(14px);
   border-bottom-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 14px 40px -24px rgba(0, 0, 0, 0.9);
 }
@@ -1624,6 +1638,8 @@ a, .info-list__value, .footer__list { overflow-wrap: anywhere; }
     z-index: 80;
     animation: nav-in 0.35s var(--ease);
   }
+  /* the header is shorter once scrolled, so the panel follows its bottom edge */
+  body.nav-open .site-header.is-scrolled .nav { inset: var(--header-h-scrolled) 0 0 0; }
   body.nav-open .nav__list { flex-direction: column; align-items: stretch; gap: 2px; }
   body.nav-open .nav__link {
     display: flex;
