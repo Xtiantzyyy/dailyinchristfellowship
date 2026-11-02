@@ -710,6 +710,36 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
 .icon-box svg { width: 22px; height: 22px; }
 .card--hover:hover .icon-box { background: var(--navy-600); color: #fff; }
 
+/* cards that open with a photo banner instead of a blue icon panel */
+.card--media {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.card__media {
+  margin: 0;
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--navy-700), var(--navy-950));
+}
+.card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.card__body {
+  padding: clamp(22px, 2.4vw, 30px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.card__body h3 { margin-bottom: 8px; }
+.card__body .mini-meta { margin-top: auto; padding-top: 16px; }
+
 /* ministry card */
 .ministry {
   display: flex;
@@ -893,6 +923,9 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
 .event-row__meta { font-size: 0.84rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 16px; }
 .event-row__meta span { display: inline-flex; align-items: center; gap: 6px; }
 .event-row__meta svg { width: 14px; height: 14px; }
+.event-row--plain { cursor: default; }
+.event-row--plain:hover .event-row__title { color: var(--ink); }
+.event-row__note { display: block; margin-top: 6px; font-size: 0.86rem; color: var(--body); max-width: 62ch; }
 .event-row__cta {
   width: 42px;
   height: 42px;
@@ -1039,7 +1072,7 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
 .cta-band__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* --------------------------------------------------------------- giving -- */
-.give-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.give-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .give-card {
   display: flex;
   flex-direction: column;
@@ -1200,6 +1233,26 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
 }
 .figure-card__caption strong { display: block; color: #fff; font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
 
+/* wide photo header that opens the story section */
+.story-banner {
+  margin: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(150deg, var(--navy-700), var(--navy-950));
+}
+.story-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.story-copy {
+  margin-top: clamp(30px, 4.5vw, 56px);
+  max-width: 78ch;
+}
+
 .jump-links {
   position: sticky;
   top: calc(var(--header-h) + 12px);
@@ -1234,6 +1287,43 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
 .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .checklist li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; margin: 0; font-size: 0.94rem; }
 .checklist svg { width: 20px; height: 20px; color: var(--iris-500); margin-top: 3px; }
+
+/* ----------------------------------------------------------- core values -- */
+.core-values {
+  margin-top: clamp(26px, 3.6vw, 42px);
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--silver-300);
+  background: var(--silver-50);
+}
+.core-values .eyebrow { margin-bottom: 8px; }
+.core-values__title { font-size: clamp(1.12rem, 1.7vw, 1.34rem); margin-bottom: 20px; }
+.core-values__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px clamp(18px, 2.6vw, 30px);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.core-values__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.core-values__list svg { width: 18px; height: 18px; flex: none; margin-top: 3px; color: var(--iris-500); }
+
+.section--ink .core-values {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.section--ink .core-values__title { color: #fff; }
+.section--ink .core-values__list li { color: rgba(255, 255, 255, 0.9); }
+.section--ink .core-values__list svg { color: var(--iris-300); }
 
 /* ------------------------------------------------------------- accordion -- */
 .accordion { border-top: 1px solid var(--silver-300); }
@@ -1398,9 +1488,12 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-90de
   margin: 0 0 18px;
 }
 .footer__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.footer__list li { margin: 0; }
+.footer__list li { margin: 0; min-width: 0; }
 .footer__list a { color: rgba(255, 255, 255, 0.62); text-decoration: none; transition: color 0.2s var(--ease); }
 .footer__list a:hover { color: #fff; }
+
+/* A long email address or URL must wrap instead of widening its column. */
+a, .info-list__value, .footer__list { overflow-wrap: anywhere; }
 .footer__times { display: grid; gap: 10px; }
 .footer__times div { display: flex; justify-content: space-between; gap: 14px; border-bottom: 1px dashed rgba(255, 255, 255, 0.12); padding-bottom: 9px; }
 .footer__times span:first-child { color: rgba(255, 255, 255, 0.55); }
@@ -1698,9 +1791,15 @@ address { font-style: normal; }
 .meter__fill { height: 100%; width: var(--w, 0%); border-radius: 99px; background: linear-gradient(90deg, var(--navy-600), var(--iris-400)); }
 
 /* ------------------------------------------------------------- final pass -- */
-.footer__grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr) minmax(0, 1.05fr) minmax(0, 0.95fr); }
+/* Desktop-only ratios — scoped so they never override the 1080px / 620px footer collapses. */
+@media (min-width: 1081px) {
+  .footer__grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr) minmax(0, 1.05fr) minmax(0, 0.95fr); }
+}
 .footer__times span { white-space: nowrap; }
 .footer__times div { gap: 10px; }
+@media (max-width: 620px) {
+  .footer__times span { white-space: normal; }
+}
 
 .give-card--feature .amount {
   background: rgba(255, 255, 255, 0.08);

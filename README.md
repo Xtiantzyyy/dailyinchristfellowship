@@ -1,6 +1,6 @@
 # Daily in Christ Fellowship — Website
 
-A complete church website in the colours taken from your logo, built around your tagline:
+A complete church website in the colors taken from your logo, built around your tagline:
 **“Sharing the Gospel, Sharing our Lives” — 1 Thess. 2:8.**
 
 Pure HTML, CSS, and a little vanilla JavaScript — no build step, no framework, no dependencies.
@@ -20,7 +20,7 @@ except the web fonts, which fall back to system serif/sans if there is no intern
 |---|---|
 | `index.html` | Home — hero with the tagline, service times, welcome, story, tagline section, ministries, sermons, events, Facebook pinned post, verse, giving CTA |
 | `about.html` | About — story, what our name means, mission/values, statement of faith, how we are led, next steps |
-| `ministries.html` | Eight ministries with meeting times, serving opportunities, small groups |
+| `ministries.html` | Eight ministries — Praise and Worship, Multimedia, Outreach & Missions, Kids for Christ (K4C), Young and Adult Fusion, Men in Bonding (MIB), Women of Worth (WOW), and Small Groups (cell groups) |
 | `sermons.html` | Featured message, filterable archive, listening platforms |
 | `events.html` | Weekly rhythm, upcoming events, volunteer sign-up, calendar links |
 | `give.html` | Three ways to give, stewardship commitments, scripture, FAQ |
@@ -71,7 +71,7 @@ body text. Keep both short — roughly 2 lines for the headline and 3 for the bo
 
 ## Brand palette (sampled from your logo)
 
-| Colour | Hex | Used for |
+| Color | Hex | Used for |
 |---|---|---|
 | Brand indigo | `#26255E` | Buttons, links, accents — the logo's deep blue |
 | Deep navy | `#15143A` → `#0F0E2B` | Hero and footer gradients |
@@ -89,16 +89,20 @@ value there and the whole site updates.
 
 **Confirmed with you:** the church name, the tagline and its verse, Quezon City, the weekly
 rhythm — Sunday School 9:30 AM, Sunday AM Service 9:30 AM, Youth Service 2:30 PM, Midweek
-Prayer Night on the 2nd and 4th Wednesday at 7:00 PM — and the mission and vision statements
-(used word for word on the home page and on About).
+Prayer Night on the 2nd and 4th Wednesday at 7:00 PM, and Night of Worship on the 3rd
+Wednesday of every other month at 7:00 PM — the mission and vision statements, and the seven
+core values: passionate spirituality, evangelism, discipleship, strong family, leadership
+development, voluntary service, and excellence. All of it is used word for word on the home
+page and on About, and the weekly rhythm drives the generated calendar.
 
 **Sample content to replace** (written so the design can be judged, not as facts):
 
 | Where | What to change |
 |---|---|
-| Contact + footer | Street address (city only is filled in), phone `+63 917 000 0000`, email `hello@dailyinchrist.org` |
+| Contact + footer | Street address — only the city is filled in. Phone and email are confirmed and live |
 | Sermons | Nine sample messages, their titles, dates and lengths |
-| Events | Six sample events, November–December 2026 |
+| Events | Five one-off events (November–December 2026) in `assets/js/schedule.js` — the weekly services around them are generated from rules, not typed |
+| Ministry photos | Eight banner photos in `assets/images/ministries/`, plus `church-members.jpg` for the story header |
 | Staff | Leadership is described by role only (no names) — add names and photos when you are ready |
 | Testimonies | Removed — add real member stories when you have them, with permission |
 
@@ -109,11 +113,47 @@ the live pages; those sections were rewritten so nothing false is published.
 
 ## What to edit first
 
-1. **Service times** — hero strip, footer (“Gatherings”), `contact.html`, `events.html`.
-2. **Address, phone, email** — `contact.html` and the footer of every page.
-3. **Pinned post card** — see above.
-4. **Sermons and events** — sample entries with `data-sermon` and event rows.
-5. **Instagram / YouTube links** — the footer icons currently point to `#`.
+1. **Service times** — the hero strip, footer (“Gatherings”), `contact.html`, and the
+   generated calendar in `assets/js/schedule.js`.
+2. **The upcoming calendar** — every Sunday service, prayer night, and Night of Worship is
+   generated from rules in `assets/js/schedule.js` (see “The upcoming calendar” below).
+3. **Street address** — `contact.html` and the footer of every page (phone and email are already filled in).
+4. **Pinned post card** — see above.
+5. **Sermons and one-off events** — sermons use `data-sermon` on `sermons.html`; one-off
+   events are listed in `SPECIAL` inside `assets/js/schedule.js`.
+6. **Instagram / YouTube links** — the footer icons currently point to `#`. Facebook and TikTok are live and confirmed.
+
+---
+
+## The upcoming calendar
+
+The “Upcoming” lists on `index.html` and `events.html` are **generated, not typed by hand**,
+so they never go stale. Everything lives at the top of `assets/js/schedule.js`:
+
+```js
+var RECURRING = [
+  { title: "Sunday AM Service", time: "9:30 AM", hour: 9, minute: 30, weekday: 0 },
+  { title: "Youth Service", time: "2:30 PM", hour: 14, minute: 30, weekday: 0 },
+  { title: "Midweek Prayer Night", time: "7:00 PM", hour: 19, minute: 0,
+    weekday: 3, weeks: [2, 4] },
+  { title: "Night of Worship", time: "7:00 PM", hour: 19, minute: 0,
+    weekday: 3, weeks: [3], months: "odd", note: "…" }
+];
+```
+
+- `weekday` — `0` is Sunday, `1` Monday, `3` Wednesday … `6` Saturday.
+- `weeks` — which weeks of the month it falls in (`[2, 4]` = second and fourth).
+- `months` — `"odd"` or `"even"` to run every other month; leave it out to run monthly.
+- `note` — an optional sentence shown under the time. Only Night of Worship has one, naming
+  the Praise and Worship and Multimedia ministries.
+
+One-off events sit in the `SPECIAL` array just below it. Each has an `id` that matches the
+anchor on `events.html`, plus a date and time. **Once a date passes it drops off the list on
+its own**, so nothing needs deleting.
+
+How many entries each page shows is one attribute in the HTML: `data-schedule-limit="6"` on
+the home page and `"14"` on the events page. With JavaScript off, the original hand-written
+list stays on the page as a fallback.
 
 ---
 
@@ -121,7 +161,7 @@ the live pages; those sections were rewritten so nothing false is published.
 
 The logo is **embedded in the stylesheet**, not loaded as a file — so it can never
 appear as an empty circle, even offline or in a preview that blocks images.
-Three embedded copies live in ssets/css/styles.css:
+Three embedded copies live in assets/css/styles.css:
 
 | Variable | Size | Where it appears |
 |---|---|---|
@@ -132,18 +172,18 @@ Plus two files for the browser chrome:
 
 | File | Size | Where it appears |
 |---|---|---|
-| avicon.png | 64×64 (navy badge) | Browser tab |
+| favicon.png | 64×64 (navy badge) | Browser tab |
 | logo-192.png | 192×192 (navy badge) | Phone home-screen icon |
 
-logo.png and logo-mark.png are still in ssets/images/ — they are the source
+logo.png and logo-mark.png are still in assets/images/ — they are the source
 files used to build the embedded copies and the icons.
 
 **If you change the artwork:**
 
 1. Save the new emblem as a square PNG (at least 300×300).
 2. Base64-encode it and swap the string after data:image/png;base64, in the
-   --logo-mark / --logo-lg rules in ssets/css/styles.css.
-3. Regenerate avicon.png and logo-192.png from the new artwork.
+   --logo-mark / --logo-lg rules in assets/css/styles.css.
+3. Regenerate favicon.png and logo-192.png from the new artwork.
 
 ---
 
@@ -186,9 +226,17 @@ iframe into `.modal__frame` inside `openModal()` in `assets/js/main.js`.
 
 ## Giving
 
-“Give online” currently points to `#`. Replace it with your processor's link
-(Tithe.ly, Pushpay, Stripe, PayPal, Givelify, or your bank's giving page) in
-`give.html` — and update the matching button on the home page CTA if desired.
+All three mailto links on the site (general, finance, media) point to the one church address, `dailyinchristfellowship1999@gmail.com` — split them if you set up separate inboxes.
+
+Giving is deliberately **in person, or by mail and bank transfer only** — there is no online
+giving form on the site. The two cards live in `give.html`:
+
+- **In person** — offering boxes at the rear of the sanctuary during the Sunday service.
+- **By mail or transfer** — checks payable to the church, posted to the office; bank
+  transfer details are sent on request.
+
+The card beside the giving breakdown is **Mission Pledges** — it explains that the fund is
+used for upcoming mission trips. Update that copy in `give.html` as trips are added.
 
 ---
 
@@ -204,9 +252,12 @@ Daily in Christ Fellowship/
 ├── give.html
 ├── contact.html
 ├── assets/
-│   ├── css/styles.css      ← all styling, colour tokens at the top
+│   ├── css/styles.css      ← all styling, color tokens at the top
 │   ├── js/main.js          ← nav, scroll effects, filters, form, lightbox
-│   └── images/             ← logo, favicon, app icon
+│   ├── js/schedule.js      ← generates the upcoming calendar from weekly rules
+│   └── images/             ← logo, favicon, app icon, ministry banner photos
+├── _dicf-shots/            ← build screenshots and one-off patch scripts (not part of the site)
+├── _ministries-banner/     ← the original ministry photos you supplied (source files)
 └── README.md
 ```
 
