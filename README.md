@@ -23,11 +23,43 @@ except the web fonts, which fall back to system serif/sans if there is no intern
 | `ministries.html` | Eight ministries — Praise and Worship, Multimedia, Outreach & Missions, Kids for Christ (K4C), Young and Adult Fusion, Men in Bonding (MIB), Women of Worth (WOW), and Small Groups (cell groups) |
 | `sermons.html` | Featured message, filterable archive, listening platforms |
 | `events.html` | Weekly rhythm, upcoming events, volunteer sign-up, calendar links |
+| `news.html` | News — 2026 highlights: 16 recaps with photos, from the January candlelight service to Pastor's Appreciation in October |
 | `give.html` | Three ways to give, stewardship commitments, scripture, FAQ |
 | `contact.html` | Address, phone, email, Facebook, contact form, map panel, first-visit guidance |
 
 Every page shares the same header, navigation, and footer, and highlights the
 current page in the menu automatically.
+
+---
+
+## News
+
+`news.html` is a recap page of the year's highlights, newest layout in a
+three-column card grid. Each card is one `<article class="card card--media">`
+with the date in the eyebrow, the title in the `<h3>`, and a short description.
+
+The photos live in `assets/images/news/` and are **optimised copies** — the
+originals you supplied stay untouched in `_news/_2026-highlights/`. Filenames
+are `YYYY-MM-DD-slug.jpg`.
+
+To add another item, copy this block into the grid (order is chronological):
+
+```html
+<article class="card card--hover card--media reveal">
+  <figure class="card__media">
+    <img src="assets/images/news/2026-11-22-slug.jpg" alt="Description of the photo"
+         width="1200" height="900" loading="lazy" decoding="async">
+  </figure>
+  <div class="card__body">
+    <p class="eyebrow" style="margin-bottom:10px">November 22, 2026</p>
+    <h3>Title Here</h3>
+    <p>One or two sentences about what happened.</p>
+  </div>
+</article>
+```
+
+Keep the `width`/`height` matching the real pixel size of the file — they
+reserve space so the grid does not jump while photos load.
 
 ---
 
